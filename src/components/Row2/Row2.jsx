@@ -1,5 +1,6 @@
 import React from 'react'
 import './row2.css'
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faClipboardList } from "@fortawesome/free-solid-svg-icons"
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons"
@@ -9,51 +10,94 @@ import { faEarthAmericas } from	"@fortawesome/free-solid-svg-icons"
     
 const Row2 = () => {
 
-    // Captura la cantidad de productos
-    var productsQuantity = "http://localhost:3002/products/productsQuantity";
+    // Sumatoria de precios de productos en $$$$ en DB
+    const [sumaTotalProductos, setsumaTotalProductos] = useState([])
 
-    fetch(productsQuantity)
-    .then(function(respuesta){    // primer callback (d)
-        return respuesta.json();
-    })
-    .then(function(dataProd){  // segundo callback (d)
+    useEffect(() => {
 
-        localStorage.setItem('productsQuantity', JSON.stringify(dataProd));
-        
-    })
+        fetch("http://localhost:3002/products/traerProductos")
+            .then((respuestaApi) => {
+                return respuestaApi.json()
+            })
+            .then((sumaTotalProductosApi) => {
 
-    var prodQ = localStorage.getItem('productsQuantity');
+                let productos = sumaTotalProductosApi.data;
 
+                const initialValue = 0;
+                let suma = [];
+                   
+                productos.forEach(value => {
+                    
+                    let precio = parseInt(value.precio);
+                    suma.push(precio)
+                });     
 
+                const SumaTotal = suma.reduce((accumulator, currentValue) =>
+                accumulator + currentValue, initialValue
+                );
 
-    // Captura la cantidad de usuarios
-    var usersQuantity = "http://localhost:3002/users/usersQuantity";
+                let formatting_options = {
+                    style: 'currency',
+                    currency: '$',
+                    minimumFractionDigits: 3,
+                }
+                 let dollarString = new Intl.NumberFormat('de-DE').format(SumaTotal);
+                setsumaTotalProductos(dollarString)
+            })
+    }, [])
 
-    fetch(usersQuantity)
-    .then(function(respuesta){    // primer callback (d)
-        return respuesta.json();
-    })
-    .then(function(dataUser){  // segundo callback (d)
+// Ultima categoria creada en DB
+const [ultimaCategoria, setUltimaCategoria] = useState([])
 
-        localStorage.setItem('usersQuantity', JSON.stringify(dataUser));
-        
-    })
+useEffect(() => {
 
-    var userQ = localStorage.getItem('usersQuantity');
+    fetch("http://localhost:3002/products/traerCategorias")
+        .then((respuestaApi) => {
+            return respuestaApi.json()
+        })
+        .then((CategoriasApi) => {
 
+            let categorias = CategoriasApi.data
+            console.log(categorias);
+                            
+            let lastCategoryCreatedObject = categorias.slice(-1);
+            let lastCategoryCreated = lastCategoryCreatedObject[0].nombre;
+            setUltimaCategoria(lastCategoryCreated)
+        })
+}, [])
+
+// Ultima categoria creada en DB
+const [usuariosPorPais, setUsuariosPorPais] = useState([])
+
+useEffect(() => {
+
+    fetch("http://localhost:3002/users/usersByCountry")
+        .then((respuestaApi) => {
+            return respuestaApi.json()
+        })
+        .then((usuariosPorPaisApi) => {
+
+            let usuariosPorPais = usuariosPorPaisApi.data
+            console.log(usuariosPorPais);
+                            
+            // No logré filtrar por pais que es una columna de la db
+            let usuariosPorPaisFinal = usuariosPorPais[0].count;
+            setUsuariosPorPais(usuariosPorPaisFinal)
+        })
+}, [])
 
 
     return (
     
         <div className="row">
-            {/* <!-- Amount of Products in DB */}
+            {/* <!-- $$$ of all products in DB */}
             <div className="col-md-4 mb-4">
                 <div className="card border-left-primary shadow h-100 py-2">
                     <div className="card-body">
                         <div className="row no-gutters align-items-center">
                             <div className="col mr-2">
                                 <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">Total $ en Productos</div>
-                                <div className="h5 mb-0 font-weight-bold text-gray-800">$546.365</div>
+                                <div className="h5 mb-0 font-weight-bold text-gray-800">$ {sumaTotalProductos}</div>
                             </div>
                             <div className="col-auto icons-row3">
                                 <FontAwesomeIcon icon={faDollarSign} />
@@ -63,14 +107,14 @@ const Row2 = () => {
                 </div>
             </div>
 
-            {/* <!-- $$$ of all products in DB */}
+            {/* <!-- Last Category Created */}
             <div className="col-md-4 mb-4">
                 <div className="card border-left-success shadow h-100 py-2">
                     <div className="card-body">
                         <div className="row no-gutters align-items-center">
                             <div className="col mr-2">
-                                <div className="text-xs font-weight-bold text-success text-uppercase mb-1">Última Categoria en DB</div>
-                                <div className="h5 mb-0 font-weight-bold text-gray-800">Electrodomésticos</div>
+                                <div className="text-xs font-weight-bold text-success text-uppercase mb-1">Última Categoria creada</div>
+                                <div className="h5 mb-0 font-weight-bold text-gray-800">{ultimaCategoria}</div>
                             </div>
                             <div className="col-auto icons-row3">
                                 <FontAwesomeIcon icon={faClipboardList} />
@@ -80,7 +124,7 @@ const Row2 = () => {
                 </div>
             </div>
 
-            {/* <!-- Amount of users in DB */}
+            {/* Country with more Users */}
             <div className="col-md-4 mb-4">
                 <div className="card border-left-primary shadow h-100 py-2">
                     <div className="card-body">
@@ -88,7 +132,7 @@ const Row2 = () => {
                             <div className="col mr-2">
                                 <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">País con más Usuarios
                                 </div>
-                                <div className="h5 mb-0 font-weight-bold text-gray-800">Argentineeeee (5)</div>
+                                <div className="h5 mb-0 font-weight-bold text-gray-800">Argentina - {usuariosPorPais} usuarios</div>
                             </div>
                             <div className="col-auto icons-row3">
                                 <FontAwesomeIcon icon={faEarthAmericas} />

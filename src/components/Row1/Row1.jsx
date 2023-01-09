@@ -65,14 +65,10 @@ const Row1 = () => {
     }, [])
 
 
-    
-
-
-
     return (
     
         <div className="row">
-            {/* <!-- Amount of Products in DB */}
+            {/* <!-- Total Users Quantity in DB */}
             <div className="col-md-4 mb-4">
                 <div className="card border-left-primary shadow h-100 py-2">
                     <div className="card-body">
@@ -89,7 +85,7 @@ const Row1 = () => {
                 </div>
             </div>
 
-            {/* <!-- $$$ of all products in DB */}
+            {/* <!-- Total Users Quantity in DB */}
             <div className="col-md-4 mb-4">
                 <div className="card border-left-success shadow h-100 py-2">
                     <div className="card-body">
@@ -106,7 +102,7 @@ const Row1 = () => {
                 </div>
             </div>
 
-            {/* <!-- Amount of users in DB */}
+            {/* <!-- Total Categories Quantity in DB */}
             <div className="col-md-4 mb-4">
                 <div className="card border-left-primary shadow h-100 py-2">
                     <div className="card-body">
