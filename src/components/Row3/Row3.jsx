@@ -23,6 +23,7 @@ const Row3 = () => {
 
                 setUltimoProducto(lastProductCreated)
             })
+            .catch(error => console.error(error))
     }, [])
 
     // Ultimo producto in DB
@@ -43,6 +44,7 @@ const Row3 = () => {
 
                 setUltimoUsuario(lastUserCreated)
             })
+            .catch(error => console.error(error))
     }, [])
 
 

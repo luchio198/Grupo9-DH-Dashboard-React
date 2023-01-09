@@ -19,16 +19,13 @@ const Row4 = () => {
 
                 setlistaCategorias(categorias)
             })
+            .catch(error => console.error(error))
     }, [])
-
-    // ademas tengo que hacer el listado de TODAS las categorias
-    // y dps ponerle pegado la cantidad de productos en cada una
-    // http://localhost:3002/products/traerProductos
 
 
     // Cantidad de Productos por Categorias
     const [cantCateg, setCantCateg] = useState([])
-    const [prodXCat, setprodXCat] = useState([]) // Cantidad de Productos por Categorias
+    const [prodXCat, setprodXCat] = useState([]) 
 
     useEffect(() => {
 
@@ -47,11 +44,10 @@ const Row4 = () => {
                 let prodXCategoria = CategoriasApi.data;
                 setprodXCat(prodXCategoria)
             })
+            .catch(error => console.error(error))
     }, [])
     
-    // Cantidad de Productos por Categorias
     
-
     return (
         <div className="row pt-4">
             {/* <!-- Usuarios por Paises en DB */}

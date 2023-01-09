@@ -25,6 +25,7 @@ const Row1 = () => {
 			    
                 setcantidadProductos(cantidadProductos)
             })
+            .catch(error => console.error(error))
     }, [])
 
     // Cantidad de Usuarios en DB
@@ -42,6 +43,7 @@ const Row1 = () => {
 
                 setcantidadUsuarios(usuarios)
             })
+            .catch(error => console.error(error))
     }, [])
     
     // Cantidad de Categorias en DB
@@ -62,6 +64,7 @@ const Row1 = () => {
 
                 setcantidadCategorias(cantidadCategories)
             })
+            .catch(error => console.error(error))
     }, [])
 
 

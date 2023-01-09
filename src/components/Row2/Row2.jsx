@@ -36,14 +36,11 @@ const Row2 = () => {
                 accumulator + currentValue, initialValue
                 );
 
-                let formatting_options = {
-                    style: 'currency',
-                    currency: '$',
-                    minimumFractionDigits: 3,
-                }
-                 let dollarString = new Intl.NumberFormat('de-DE').format(SumaTotal);
+                let dollarString = new Intl.NumberFormat('de-DE').format(SumaTotal);
+
                 setsumaTotalProductos(dollarString)
             })
+            .catch(error => console.error(error))
     }, [])
 
 // Ultima categoria creada en DB
@@ -64,6 +61,7 @@ useEffect(() => {
             let lastCategoryCreated = lastCategoryCreatedObject[0].nombre;
             setUltimaCategoria(lastCategoryCreated)
         })
+        .catch(error => console.error(error))
 }, [])
 
 // Ultima categoria creada en DB
@@ -84,6 +82,7 @@ useEffect(() => {
             let usuariosPorPaisFinal = usuariosPorPais[0].count;
             setUsuariosPorPais(usuariosPorPaisFinal)
         })
+        .catch(error => console.error(error))
 }, [])
 
 
