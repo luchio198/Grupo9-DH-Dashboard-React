@@ -34,10 +34,10 @@ const Row4 = () => {
                 return respuestaApi.json()
             })
             .then((CategoriasApi) => {
-                console.log(CategoriasApi)
+                
                 // Cantidad de Categorias
                 let categoryQuantity = CategoriasApi.cantidadCategorias;
-                console.log(categoryQuantity)
+                
                 setCantCateg(categoryQuantity)
 
                 // Productos por Categoria

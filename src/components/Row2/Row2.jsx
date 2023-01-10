@@ -55,7 +55,6 @@ useEffect(() => {
         .then((CategoriasApi) => {
 
             let categorias = CategoriasApi.data
-            console.log(categorias);
                             
             let lastCategoryCreatedObject = categorias.slice(-1);
             let lastCategoryCreated = lastCategoryCreatedObject[0].nombre;
@@ -64,8 +63,9 @@ useEffect(() => {
         .catch(error => console.error(error))
 }, [])
 
-// Ultima categoria creada en DB
+// Cantidad de Usuarios por Paises
 const [usuariosPorPais, setUsuariosPorPais] = useState([])
+const [Paises, setPaises] = useState([])
 
 useEffect(() => {
 
@@ -74,13 +74,16 @@ useEffect(() => {
             return respuestaApi.json()
         })
         .then((usuariosPorPaisApi) => {
-
-            let usuariosPorPais = usuariosPorPaisApi.data
-            console.log(usuariosPorPais);
-                            
-            // No logré filtrar por pais que es una columna de la db
-            let usuariosPorPaisFinal = usuariosPorPais[0].count;
-            setUsuariosPorPais(usuariosPorPaisFinal)
+            console.log(usuariosPorPaisApi);
+            let cantidadUsuariosPorPaises = usuariosPorPaisApi.data.count;
+            let cantidadUsuariosPorPaisesFinal = cantidadUsuariosPorPaises[0].count;
+            
+            let paises = usuariosPorPaisApi.data.rows;
+            //console.log(paises);
+            let listaPaises = paises[0].count;
+           
+            setUsuariosPorPais(cantidadUsuariosPorPaisesFinal)
+            setPaises(listaPaises)
         })
         .catch(error => console.error(error))
 }, [])
@@ -131,7 +134,7 @@ useEffect(() => {
                             <div className="col mr-2">
                                 <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">País con más Usuarios
                                 </div>
-                                <div className="h5 mb-0 font-weight-bold text-gray-800">Argentina - {usuariosPorPais} usuarios</div>
+                                <div className="h5 mb-0 font-weight-bold text-gray-800">{Paises} - {usuariosPorPais} usuarios</div>
                             </div>
                             <div className="col-auto icons-row3">
                                 <FontAwesomeIcon icon={faEarthAmericas} />
