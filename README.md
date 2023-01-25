@@ -26,4 +26,4 @@ Frameworks, librerias y métodos usados en la creación del Dashboard:
 - Promises
 
 ![Imagen descriptiva del Dashboard]
-https://github.com/luchio198/Grupo9-DH-Dashboard-React/tree/main/public/dash.jpg
+https://github.com/luchio198/Grupo9-DH-Dashboard-React/public/dash.jpg
